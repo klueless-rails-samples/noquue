@@ -1,0 +1,10 @@
+<p id="notice"><%= notice %></p>
+
+<%= render @supplier %>
+
+<div>
+  <%= link_to "Edit this supplier", edit_supplier_path(@supplier) %> |
+  <%= link_to "Back to suppliers", suppliers_path %>
+
+  <%= button_to "Destroy this supplier", supplier_path(@supplier), method: :delete %>
+</div>

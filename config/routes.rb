@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   resources :suppliers
   get 'about/index'
@@ -6,7 +8,7 @@ Rails.application.routes.draw do
 
   # Almost every application defines a route for the root path ("/") at the top of this file.
   # root "articles#index"
-  root to: "home#index"
+  root to: 'home#index'
 end
 
 # == Route Map

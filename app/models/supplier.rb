@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Supplier < ApplicationRecord
   validates :abn, length: 9..9, allow_blank: true
 end

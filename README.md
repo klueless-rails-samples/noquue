@@ -19,10 +19,10 @@ rake db:migrate RAILS_ENV=test
 ```
 ![](docs/migration-create-suppliers.png)
 
-- Scaffod CRUD operations for model
+- [FAILED] Scaffod CRUD operations for model
 
 ```
-rails generate scaffold_controller supplier
+rails generate scaffold supplier
 ```
 
 - [DONE] Annotate models

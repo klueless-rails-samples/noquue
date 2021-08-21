@@ -1,0 +1,33 @@
+<%= form_with(model: supplier) do |form| %>
+  <% if supplier.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(supplier.errors.count, "error") %> prohibited this supplier from being saved:</h2>
+
+      <ul>
+        <% supplier.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-floating mb-3">
+    <%= form.label :name, "Name" %>
+    <%= form.text_field :name %>
+  </div>
+  <div class="form-floating mb-3">
+    <%= form.label :address, "Address" %>
+    <%= form.text_field :address %>
+  </div>
+  <div class="form-floating mb-3">
+    <%= form.label :abn, "Abn" %>
+    <%= form.text_field :abn %>
+  </div>
+  <div class="form-floating mb-3">
+    <%= form.label :description, "Description:" %>
+    <%= form.text_field :description %>
+  </div>
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
