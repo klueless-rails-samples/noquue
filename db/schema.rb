@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 2021_08_21_025331) do
   create_table "suppliers", force: :cascade do |t|
     t.string "name"
     t.string "address"
-    t.string "abn", limit: 10
+    t.string "abn"
     t.text "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

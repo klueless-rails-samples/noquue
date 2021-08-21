@@ -12,6 +12,7 @@
 
 ```
 rails g model supplier name:string:index address:string abn:string{10}:uniq description:text
+rails g model supplier name:string:index address:string abn:string:uniq description:text
 
 rake db:migrate
 rake db:migrate RAILS_ENV=test
@@ -22,6 +23,12 @@ rake db:migrate RAILS_ENV=test
 
 ```
 rails generate scaffold_controller supplier
+```
+
+- [DONE] Annotate models
+
+```
+annotate --models -p bottom
 ```
 
 - Add Rspec

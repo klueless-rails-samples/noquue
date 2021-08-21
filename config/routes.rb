@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :suppliers
   get 'about/index'
   # get 'home/index'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
@@ -7,3 +8,6 @@ Rails.application.routes.draw do
   # root "articles#index"
   root to: "home#index"
 end
+
+# == Route Map
+#
