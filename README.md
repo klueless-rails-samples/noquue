@@ -31,16 +31,16 @@ rails generate scaffold supplier
 annotate --models -p bottom
 ```
 
-- Add Rspec
-- Create an Spec Tests
-- Add Guard
-- Automate Rspec
-- Add Cops
+- [DONE] Add Rspec
+- [DONE] Create an Spec Tests
+- [DONE] Add FactoryBot
+- [DONE] Add Guard
+- [DONE] Automate Rspec
+- [DONE] Add Cops
 - [DONE] Create and publish a Git Repo
 - Watch 2 Videos on Rails 7
 - Sean to Get clone the repo
-- Go over the schema .rb from noquue
+- Go over the schema.rb from noquue
 - Devise (Security)
-- 
 
 

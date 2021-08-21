@@ -1,1 +1,13 @@
 inherit_from: .rubocop_todo.yml
+
+AllCops:
+  DisabledByDefault: true
+  Exclude:
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'bin/**/*'
+    - '**/*.js'
+    - '**/*.css'
+    - '**/*.scss'
+    - 'public/**/*'
+

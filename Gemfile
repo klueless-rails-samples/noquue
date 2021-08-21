@@ -31,6 +31,7 @@ group :development, :test do
   # Call "byebug" anywhere in the code to stop execution and get a debugger console
   gem 'annotate'
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
+  gem "factory_bot_rails", require: false
   gem 'guard'
   gem 'guard-bundler', '~> 2.2', require: false
   gem 'guard-rspec', '~> 4.7', require: false

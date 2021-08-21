@@ -4,209 +4,229 @@ require 'rails_helper'
 require 'spec_helper'
 
 RSpec.describe Supplier, type: :model do
-  # before(:each) do
-  #   FactoryBot.reload
-  # end
+  before(:each) do
+    FactoryBot.reload
+  end
 
-  describe '#addition' do
-    context 'when lhs == 2 and rhs = 3' do
-      it 'should return 5' do
-        expect(2 + 3).to eq(5)
-      end
-    end
-    context 'when lhs == 7 and rhs = 3' do
-      it do
-        expect(7 + 3).to eq(10)
-      end
-    end
-    context 'when lhs == 7 and rhs = 4' do
-      it do
-        expect(7 + 4).to eq(11)
+  # focus models
+  let(:supplier_trait1) { FactoryBot.create(:supplier, :trait1) }
+  let(:supplier_trait2) { FactoryBot.create(:supplier, :trait2) }
+  # let(:supplier_trait3) { FactoryBot.create(:supplier, :trait3) }
+  let(:supplier_trait3_no_abn) { FactoryBot.create(:supplier, :trait3, :no_abn) }
+
+  let(:described_model) { supplier_trait1 }
+
+  describe "#find" do
+    context "when row ID exists" do
+      before(:each) { described_model }
+
+      let(:found) { described_class.find(described_model.id) }
+
+      it "should find by id" do
+        expect(found.id).to eq(described_model.id)
       end
     end
   end
 
-  # # focus models
-  # let(:supplier_trait1) { FactoryBot.create(:supplier, :trait1) }
-  # let(:supplier_trait2) { FactoryBot.create(:supplier, :trait2) }
-  # let(:supplier_trait3) { FactoryBot.create(:supplier, :trait3) }
+  describe "#create" do
+    let(:create) { described_class.new(attributes) }
 
-  # let(:described_model) { supplier_trait1 }
+    let(:optional_data_values) do
+      {
+        name: "name",
+        address: "address",
+        abn: "123456789",
+        description: "description"
+      }
+    end
+    let(:all_data_values) { {}.merge(optional_data_values) }
+    let(:nil_data_values) { all_data_values.keys.map { |key| [key, nil] }.to_h }
 
-  # describe "#find" do
-  #   context "when row ID exists" do
-  #     before(:each) { described_model }
+    describe "happy path :)" do
+      context "when creating a row" do
+        context "with valid data values" do
+          context "and valid relationships" do
+            let(:attributes) { all_data_values }
 
-  #     let(:found) { described_class.find(described_model.id) }
+            it "should create a new row" do
+              expect { create.save }
+                .to change { described_class.count }.by(1)
+            end
 
-  #     it "should find by id" do
-  #       expect(found.id).to eq(described_model.id)
-  #     end
+          end
+        end
+      end
+    end
 
-  #   end
-  # end
+    describe "unhappy path :(" do
+      context "when misconfigured" do
+        context "because relationships are invalid" do
+          # no relationships for belongs_to
+        end
 
-  # describe "#create" do
-  #   let(:create) { described_class.new(attributes) }
+        context "because ABN must be 9 characters" do
+          let(:attributes) { 
+            {
+              name: "name",
+              address: "address",
+              abn: "Abn9",
+              description: "description"
+            }
+          }
 
-  #   let(:optional_data_values) do
-  #     {
-  #       name: "name",
-  #       os: "os",
-  #       checksum: "checksum"
-  #     }
-  #   end
-  #   let(:all_data_values) { {}.merge(optional_data_values) }
-  #   let(:nil_data_values) { all_data_values.keys.map { |key| [key, nil] }.to_h }
+          it "should not create a new row" do
+            expect { create.save }
+              .to change { described_class.count }.by(0)
+          end
 
-  #   describe "happy path :)" do
-  #     context "when creating a row" do
-  #       context "with valid data values" do
-  #         context "and valid relationships" do
-  #           let(:attributes) { all_data_values }
+          describe '.valid?' do
+            subject { create.valid? }
 
-  #           it "should create a new row" do
-  #             expect { create.save }
-  #               .to change { described_class.count }.by(1)
-  #           end
+            it { is_expected.to be_falsey }
+          end
 
-  #         end
-  #       end
-  #     end
-  #   end
+          describe '.errors.full_messages' do
+            subject { create.errors.full_messages }
 
-  #   describe "unhappy path :(" do
-  #     context "when misconfigured" do
-  #       context "because relationships are invalid" do
-  #         # no relationships for belongs_to
-  #       end
+            before { create.valid? }
 
-  #       context "because data columns are missing" do
-  #         let(:attributes) { {} }
+            it { is_expected.to include("Abn is too short (minimum is 9 characters)") }
+          end
+        end
 
-  #         # xit "should not create a new row" do
-  #         #   expect { create.save }
-  #         #     .to change { described_class.count }.by(0)
-  #         # end
-  #       end
+      end
+    end
+  end
 
-  #       context "because data columns are nil" do
-  #         let(:attributes) { nil_data_values }
+  describe "#update" do
+    let(:optional_data_values) do
+      {
+        name: "name+updated",
+        address: "address+updated",
+        abn: "D23456789",
+        description: "description+updated"
+      }
+    end
+    let(:all_data_values) { {}.merge(optional_data_values) }
+    let(:nil_data_values) { all_data_values.keys.map { |key| [key, nil] }.to_h }
 
-  #         # xit "should fail to create new row" do
-  #         #   expect { create.save }
-  #         #     .to change { described_class.count }.by(0)
-  #         #   # .to raise_error(ActiveRecord::NotNullViolation)
-  #         # end
-  #       end
-  #     end
-  #   end
-  # end
+    let(:update) { described_model }
 
-  # describe "#update" do
-  #   let(:optional_data_values) do
-  #     {
-  #       name: "name+updated",
-  #       os: "os+updated",
-  #       checksum: "checksum+updated"
-  #     }
-  #   end
-  #   let(:all_data_values) { {}.merge(optional_data_values) }
-  #   let(:nil_data_values) { all_data_values.keys.map { |key| [key, nil] }.to_h }
+    describe "happy path :)" do
+      context "when data fields are valid" do
+        let(:attributes) { all_data_values }
 
-  #   let(:update) { described_model }
+        describe ".valid?" do
+          before(:each) {  update.assign_attributes(attributes) }
 
-  #   describe "happy path :)" do
-  #     context "when data fields are valid" do
-  #       let(:attributes) { all_data_values }
+          it { expect(update.valid?).to be_truthy }
+        end
 
-  #       describe ".valid?" do
-  #         before(:each) { update.assign_attributes(attributes) }
+        describe ".save" do
+          it "values should change" do
+            expect do
+              update.assign_attributes(attributes)
+              update.save
+              update.reload
+            end
+            .to  change { update.updated_at }
+            .and change { update.name }.to("name+updated") # you can check specific fields
+          end
+        end
+      end
+    end
 
-  #         it { expect(update.valid?).to be_truthy }
-  #       end
+    describe "unhappy path :(" do
+      before(:each) { update.assign_attributes(attributes) }
 
-  #       describe ".save" do
-  #         it "values should change" do
-  #           expect do
-  #             update.assign_attributes(attributes)
-  #             update.save
-  #             update.reload
-  #           end
-  #           .to  change { update.updated_at }
-  #           .and change { update.name }.to("name+updated") # you can check specific fields
-  #         end
-  #       end
-  #     end
-  #   end
+      let(:attributes) { 
+        {
+          name: "name",
+          address: "address",
+          abn: abn,
+          description: "description"
+        }
+      }
+      
+      context "when abn is too short" do
+        let(:abn) { '123' }
 
-  #   describe "unhappy path :(" do
-  #     context "data fields with nil" do
-  #       before(:each) { update.assign_attributes(attributes) }
+        describe ".valid?" do
+          subject { update.valid? }
 
-  #       let(:attributes) { nil_data_values }
+          it { expect(update.valid?).to be_falsey }
+        end
 
-  #       describe ".valid?" do
-  #         # this test does not work for Supplier
-  #         # xit { expect(update.valid?).to be_falsey }
-  #       end
+        describe ".errors.full_messages" do
+          subject { update.errors.full_messages }
 
-  #       describe ".save" do
-  #         before(:each) { update.assign_attributes(attributes) }
+          before { update.valid? }
 
-  #         # xit "should fail to save" do
-  #         #   expect { update.save }.to raise_error(ActiveRecord::NotNullViolation)
-  #         # end
-  #       end
-  #     end
+          it { is_expected.to include('Abn is too short (minimum is 9 characters)') }
+        end
+      end
 
-  #     context "when updating foreign keys with nil" do
-  #       # NOT APPLICABLE
-  #     end
-  #   end
-  # end
+      context "when abn is too long" do
+        let(:abn) { '1234567890' }
 
-  # describe "#destroy" do
-  #   context "when delete by id" do
-  #     before(:each) { described_model }
+        describe ".valid?" do
+          subject { update.valid? }
 
-  #     it "when the row exists" do
-  #       expect { described_class.destroy(described_model.id) }
-  #         .to change { described_class.count }.by(-1)
-  #     end
-  #   end
-  #   context "when delete by multiple ids" do
-  #     before(:each) { full_data_set }
+          it { expect(update.valid?).to be_falsey }
+        end
 
-  #     it "should rows with valid ids exist" do
-  #       expect { described_class.where(id: [supplier_trait1.id, supplier_trait2.id]).destroy_all }
-  #       .to change { described_class.count }.by(-2)
-  #     end
-  #   end
-  # end
+        describe ".errors.full_messages" do
+          subject { update.errors.full_messages }
+
+          before { update.valid? }
+
+          it { is_expected.to include('Abn is too long (maximum is 9 characters)') }
+        end
+      end
+    end
+  end
+
+  describe "#destroy" do
+    context "when delete by id" do
+      before(:each) { described_model }
+
+      it "when the row exists" do
+        expect { described_class.destroy(described_model.id) }
+          .to change { described_class.count }.by(-1)
+      end
+    end
+    context "when delete by multiple ids" do
+      before(:each) { full_data_set }
+
+      it "should rows with valid ids exist" do
+        byebug
+        expect { described_class.where(id: [supplier_trait1.id, supplier_trait2.id, supplier_trait3_no_abn.id]).destroy_all }
+        .to change { described_class.count }.by(-3)
+      end
+    end
+  end
 
   # # data set for general unit tests
-  # def full_data_set
-  #   supplier_trait1
-  #   supplier_trait2
-  #   # supplier_trait3
-  # end
+  def full_data_set
+    supplier_trait1
+    supplier_trait2
+    supplier_trait3_no_abn
+  end
 
-  # context "factories" do
-  #   before(:each) do
-  #     full_data_set
-  #   end
+  context "factories" do
+    before(:each) do
+    end
 
-  #   describe "check factory data" do
-  #     it "validate test data" do
-  #       # print_data_set
+    describe "check factory data" do
+      it "validate test data" do
+        # print_data_set
 
-  #       expect(supplier_trait1).to_not be_nil
-  #       expect(supplier_trait2).to_not be_nil
-  #       expect(supplier_trait3).to_not be_nil
-  #     end
-  #   end
-  # end
+        expect(supplier_trait1).to_not be_nil
+        expect(supplier_trait2).to_not be_nil
+        expect(supplier_trait3_no_abn).to_not be_nil
+      end
+    end
+  end
 
   # def print_me
   #   print_suppliers_as_table
