@@ -1,0 +1,20 @@
+select 'action_text_rich_texts' as name, count(*) from action_text_rich_texts
+union
+select 'active_storage_attachments' as name, count(*) from active_storage_attachments
+union
+select 'active_storage_blobs' as name, count(*) from active_storage_blobs
+union
+select 'active_storage_variant_records' as name, count(*) from active_storage_variant_records
+union
+select 'posts' as name, count(*) from posts
+
+
+-- select * from active_storage_blobs
+
+--  select * from posts
+
+
+-- delete from action_text_rich_texts;
+-- delete from active_storage_attachments;
+-- delete from active_storage_blobs;
+-- delete from active_storage_variant_records;

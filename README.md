@@ -6,6 +6,34 @@
 [Rails 7](https://rajeevkannav.com/post/2021-03-19-install-rails7-alpha-edge/)
 [Rails 7 alt](https://sapidlabs.com/rails/2021/06/12/how-to-install-rails-7.html)
 
+### Add Custom Gems
+
+These gems did not get installed but are probably needed for Rails 7
+
+#### Import Map
+
+```
+gem 'importmap-rails'
+rails importmap:install
+```
+![](./docs/setup-importmap.png)
+
+#### Hotwire
+
+```
+gem 'hotwire-rails'
+rails hotwire:install
+```
+
+#### Action Text
+
+```
+rails action_text:install
+```
+
+
+![](./docs/setup-action-text.png)
+
 ## Questions
 
 - What is cable
