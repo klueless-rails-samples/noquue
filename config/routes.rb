@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :posts
   resources :suppliers
   get 'about/index'
   # get 'home/index'

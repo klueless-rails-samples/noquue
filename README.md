@@ -6,7 +6,18 @@
 [Rails 7](https://rajeevkannav.com/post/2021-03-19-install-rails7-alpha-edge/)
 [Rails 7 alt](https://sapidlabs.com/rails/2021/06/12/how-to-install-rails-7.html)
 
+## Questions
+
+- What is cable
+- What is storage
+- What is controller concern
+- What is model concern
+
 ## Goals
+
+```
+rails g scaffold post title:string content:text
+```
 
 - [DONE] Create a model in the database
 
@@ -42,5 +53,3 @@ annotate --models -p bottom
 - Sean to Get clone the repo
 - Go over the schema.rb from noquue
 - Devise (Security)
-
-
